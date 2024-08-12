@@ -1,0 +1,116 @@
+{% extends 'store/main.html' %}
+
+{% load static %}
+{% block content %}
+
+ <section id="banner" style="background-image:url({% static 'images/banner-img4.jpg' %});">
+    <div class="container padding-medium-2">
+      <div class="hero-content ">
+        <h2 class="display-1 fw-bold mt-5 mb-0">Account</h2>
+        <nav class="breadcrumb">
+          <a class="breadcrumb-item nav-link" href="#">Home</a>
+          <a class="breadcrumb-item nav-link" href="#">Pages</a>
+          <span class="breadcrumb-item active" aria-current="page">Account</span>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+  <section class="login-tabs">
+    <div class="container my-5 py-5">
+      <div class="row">
+        <div class="tabs-listing">
+          <nav>
+            <div class="nav nav-tabs d-flex justify-content-center border-dark-subtle mb-3" id="nav-tab" role="tablist">
+              <button
+                class="nav-link account-tab mx-3 fs-4 border-bottom border-dark-subtle border-0 text-capitalize fw-semibold active"
+                id="nav-sign-in-tab" data-bs-toggle="tab" data-bs-target="#nav-sign-in" type="button" role="tab"
+                aria-controls="nav-sign-in" aria-selected="true">Log In</button>
+
+            </div>
+          </nav>
+          <div class="tab-content" id="nav-tabContent">
+            <div class="tab-pane fade active show" id="nav-sign-in" role="tabpanel" aria-labelledby="nav-sign-in-tab">
+              <div class="col-lg-8 offset-lg-2 mt-5">
+
+                <p class="mb-0">Log-In With Social</p>
+                <hr class="my-1">
+                <div class="row mt-4 mb-5">
+                  <div class="d-grid col-md-6 my-2">
+                    <a href="#" class="btn btn-outline-dark py-4 px-5">
+                      <div class="d-flex flex-wrap justify-content-center align-items-center">
+                        <iconify-icon icon="ion:logo-google" class="signup-social-icon me-2 fs-5"></iconify-icon>
+                        <p class="mb-0 pt-1">Google</p>
+                      </div>
+                    </a>
+                  </div>
+                  <div class="d-grid col-md-6 my-2">
+                    <a href="#" class="btn btn-outline-dark py-4 px-5">
+                      <div class="d-flex flex-wrap justify-content-center align-items-center">
+                        <iconify-icon icon="ion:logo-facebook" class="signup-social-icon me-2 fs-5"></iconify-icon>
+                        <p class="mb-0 pt-1">Facebook</p>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+
+
+                <p class="mb-0">Or Log-In With Email</p>
+                <hr class="my-1">
+
+                <form id="form1" method="POST" action="."  class="form-group flex-wrap ">
+                    {% csrf_token %}
+                  <div class="form-input col-lg-12 my-4">
+
+                    {{form.email}}
+                      {{ form.password }}
+                  </div>
+
+
+                       {% if form.errors or form.non_field_errors %}
+
+                        {% for field in form %}
+
+                            {{ field.errors }}
+
+                        {%   endfor %}
+
+                        {{ form.non_field_errors }}
+                    {% endif %}
+
+                    <label class="py-3 d-flex flex-wrap justify-content-between">
+                      <div>
+                        <input type="checkbox" required="" class="d-inline">
+                        <span class="label-body ">Remember Me</span>
+                      </div>
+
+                      <div id="passwordHelpBlock" class="form-text ">
+                        <a href="#" class="text-primary  fw-bold"> Forgot Password?</a>
+                      </div>
+                    </label>
+                    <div class="d-grid my-3">
+                      <input  name="signin" id="signin" class="btn btn-dark btn-lg rounded-1" value="Log in" type="submit"/>
+                    </div>
+                </form>
+
+                 <p class="signuphere">
+                Dont have an account ? <a href="{% url 'store:signup' %}" class="signuphere-link">Signup here!</a>
+
+            </p>
+
+                  </div>
+
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+
+{% endblock %}

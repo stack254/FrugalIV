@@ -1,0 +1,85 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<section id="banner" style="background-image:url({% static 'images/banner-img7.jpg' %});">
+    <div class="container padding-medium-2">
+      <div class="hero-content ">
+        <h2 class="display-1 fw-bold mt-5 mb-0">Cart</h2>
+        <nav class="breadcrumb">
+          <a class="breadcrumb-item nav-link" href="#">Home</a>
+          <a class="breadcrumb-item nav-link" href="#">Pages</a>
+          <span class="breadcrumb-item active" aria-current="page">Cart</span>
+        </nav>
+      </div>
+    </div>
+</section>
+
+<section id="cart" class="my-5 py-5">
+  <div class="container">
+    <div class="row g-md-5">
+      <div class="col-md-8 pe-md-5">
+        <table class="table">
+          <div class="box-element">
+            <div class="cart-row">
+              <div style="flex:2"></div>
+              <div style="flex:2" ><strong>Product</strong></div>
+              <div style="flex:1"><strong>Quantity</strong></div>
+              <div style="flex:1"><strong>Price</strong></div>
+              <div style="flex:1"><strong>Sub-Total</strong></div>
+
+
+            </div>
+
+            {% for item in items %}
+            <div class="cart-row">
+              <div style="flex:2"><img class="row-image" src="{{ item.product.imageURL }}"></div>
+              <div style="flex:2"><p>{{ item.product.name }}</p></div>
+
+              <div style="flex:1">
+                <p class="quantity">{{ item.quantity }}</p>
+                <div class="quantity">
+                  <img data-product={{ item.product.id }} data-action="add" class="chg-quantity update-cart" src="{% static  'images/up.png' %}">
+                  <img data-product={{ item.product.id }} data-action="remove" class="chg-quantity update-cart" src="{% static  'images/down.png' %}">
+                </div>
+              </div>
+               <div style="flex:1"><p>KES{{ item.product.price|floatformat:2 }}</p></div>
+              <div style="flex:1"><p>KES{{ item.get_total }}</p></div>
+
+            </div>
+            {% endfor %}
+          </div>
+        </table>
+      </div>
+        <div class="col-md-4">
+          <div class="cart-totals">
+            <h2 class="pb-4">Cart Total</h2>
+            <div class="total-price pb-4">
+              <table cellspacing="0" class="table text-uppercase">
+                <tbody>
+
+                  <tr class="order-total pt-2 pb-2 border-bottom">
+                    <th>Total</th>
+                    <td data-title="Total">
+                      <span class="price-amount amount text-dark ps-5">
+                        <bdi>
+                          <span class="price-currency-symbol">Kes. </span>{{order.get_cart_total|floatformat:2}}</bdi>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+             <div class="button-wrap row g-2">
+              <a href="{% url 'store:store' %}" class="col-md-9"><button class="btn btn-outline-dark p-3 w-100">Continue shopping</button>
+              </a>
+
+              <div class="col-md-12 mt-3"><a href="{% url 'store:checkout' %}" class="btn btn-dark p-3 w-100">Proceed to checkout</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

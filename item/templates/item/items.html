@@ -1,0 +1,148 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+  <section id="banner" style="background-image:url({% static 'images/banner-img2.jpg' %});">
+    <div class="container padding-medium-2">
+      <div class="hero-content ">
+        <h2 class="display-1 fw-bold mt-5 mb-0">Shop</h2>
+        <nav class="breadcrumb">
+          <a class="breadcrumb-item nav-link" href="#">Home</a>
+          <a class="breadcrumb-item fw-bold nav-link" href="#">Pages</a>
+          <span class="breadcrumb-item active" aria-current="page">Shop</span>
+        </nav>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="shop">
+    <div class="container py-5 my-5">
+      <div class="row flex-md-row-reverse g-md-5 mb-5">
+
+        <main class="col-md-9">
+          <div class="filter-shop d-md-flex justify-content-between align-items-center">
+            <div class="showing-product">
+              <p class="m-0">Showing 1–9 of 55 results</p>
+            </div>
+            <div class="sort-by">
+              <select class="filter-categories border-0 m-0">
+                <option value="">Default sorting</option>
+                <option value="">Name (A - Z)</option>
+                <option value="">Name (Z - A)</option>
+                <option value="">Price (Low-High)</option>
+                <option value="">Price (High-Low)</option>
+                <option value="">Rating (Highest)</option>
+                <option value="">Rating (Lowest)</option>
+                <option value="">Model (A - Z)</option>
+                <option value="">Model (Z - A)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row product-store">
+            {% for product in products %}
+
+            <div class="col-md-6 col-lg-4 my-4">
+
+              <div class="product-item">
+                <div class="image-holder">
+                  <img src="{{ product.imageURL }}" alt="Books" class="product-image img-fluid">
+                </div>
+                <div class="cart-concern">
+                  <div class="cart-button d-flex justify-content-between align-items-center">
+                    <a href="#" data-product="{{product.id}}" data-action="add" class="btn-wrap cart-link d-flex align-items-center text-capitalize fs-6 add-btn update-cart ">add to cart
+                      <i class="icon icon-arrow-io pe-1"></i>
+                    </a>
+                    <a href="{% url 'product:detail' product.id %}" class="view-btn">
+                      <i class="icon icon-screen-full"></i>
+                    </a>
+                    <a href="#" class="wishlist-btn">
+                      <i class="icon icon-heart"></i>
+                    </a>
+                  </div>
+                </div>
+                <div class="product-detail d-flex justify-content-between align-items-center mt-4">
+                  <h4 class="product-title mb-0">
+                    <a href="single-product.html">{{ product.name }}</a>
+                  </h4>
+                  <p class="m-0 fs-5 fw-normal">${{ product.price|floatformat:2}}</p>
+                </div>
+
+              </div>
+
+
+            </div>
+            {% endfor %}
+
+          </div>
+
+          <nav class="navigation paging-navigation text-center mt-5" role="navigation">
+            <div class="pagination loop-pagination d-flex justify-content-center align-items-center">
+              {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; </a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+              <br>
+                <a href="?page={{ page_obj.paginator.num_pages }}"> &raquo;</a>
+            {% endif %}
+            </div>
+          </nav>
+
+        </main>
+        <aside class="col-md-3 mt-5">
+          <div class="sidebar">
+            <div class="widget-menu">
+              <div class="widget-search-bar">
+                <div class="search-bar border rounded-2 border-dark-subtle pe-3">
+                  <form role="search" method="get" id="search-form" class="text-center d-flex align-items-center" action="" method="">
+                    <input  name="query" type="text" class="form-control border-0 bg-transparent" placeholder="Sneakers, mules..." value="{{ query }}" />
+                    <a href="{% url 'product:products' %}">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                      <path fill="currentColor"
+                        d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z" />
+                    </svg>
+                    </a>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="widget-product-categories pt-5">
+              <h4 class="widget-title">Categories</h4>
+              <ul class="product-categories sidebar-list list-unstyled">
+                <li class="cat-item">
+                  <a href="{% url 'product:products' %}" class="nav-link fw-semibold">All</a>
+                </li>
+                {% for category in categories %}
+                <li class="cat-item {% if category.id == category_id %}bg-gray-200{% endif %}">
+                   <a href="{% url 'product:products' %}?query={{ query }}&category={{ category.id }}">{{ category.name }}</a>
+                </li>
+                {% endfor %}
+
+              </ul>
+            </div>
+
+            <div class="widget-price-filter pt-3">
+              <h4 class="widget-titlewidget-title">Filter By Price</h4>
+              <ul class="product-tags sidebar-list list-unstyled">
+
+                <li class="tags-item">
+                  <a href="{% url 'product:products' %}">Clear</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+
+{% endblock %}
